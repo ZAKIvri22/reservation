@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>حجز طاولة</title>
+  <title>Table Reservation</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
   <script>
     (function(){
-      emailjs.init('YOUR_USER_ID'); // 🔴 استبدل بـ User ID من EmailJS
+      emailjs.init('YOUR_USER_ID'); // 🔴 Replace with your EmailJS User ID
     })();
   </script>
 </head>
@@ -17,62 +17,63 @@
 
 <div class="bg-white bg-opacity-90 backdrop-blur-md p-6 sm:p-8 rounded-lg shadow-lg flex flex-col md:flex-row items-center gap-6 max-w-4xl w-full">
 
-  <!-- صورة جميلة -->
-  <div class="hidden md:block w-1/2">
-    <img src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="صورة مطعم" class="rounded-lg shadow-lg w-full h-full object-cover">
-  </div>
-
-  <!-- الفورم -->
-  <div class="w-full md:w-1/2">
-    <h1 class="text-2xl font-bold mb-6 text-center text-gray-700">احجز طاولتك الآن</h1>
+  <!-- Form Section -->
+  <div class="w-full md:w-1/2 order-2 md:order-1">
+    <h1 class="text-2xl font-bold mb-6 text-center text-gray-700">Reserve Your Table</h1>
 
     <form id="reservationForm" class="space-y-4">
       <div>
-        <label for="name" class="block mb-1 text-gray-600">الاسم الكامل:</label>
+        <label for="name" class="block mb-1 text-gray-600">Full Name:</label>
         <input type="text" id="name" required class="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
       </div>
 
       <div>
-        <label for="email" class="block mb-1 text-gray-600">البريد الإلكتروني:</label>
+        <label for="email" class="block mb-1 text-gray-600">Email Address:</label>
         <input type="email" id="email" required class="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
-          <label for="date" class="block mb-1 text-gray-600">تاريخ الحجز:</label>
+          <label for="date" class="block mb-1 text-gray-600">Reservation Date:</label>
           <input type="date" id="date" required class="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
         </div>
 
         <div>
-          <label for="time" class="block mb-1 text-gray-600">وقت الحجز:</label>
+          <label for="time" class="block mb-1 text-gray-600">Reservation Time:</label>
           <input type="time" id="time" required class="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
         </div>
       </div>
 
       <div>
-        <label for="guests" class="block mb-1 text-gray-600">عدد الأشخاص:</label>
+        <label for="guests" class="block mb-1 text-gray-600">Number of Guests:</label>
         <input type="number" id="guests" min="1" max="20" required class="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
       </div>
 
       <div>
-        <label for="session" class="block mb-1 text-gray-600">نوع الجلسة:</label>
+        <label for="session" class="block mb-1 text-gray-600">Seating Preference:</label>
         <select id="session" required class="w-full border p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-400">
-          <option value="داخلية">جلسة داخلية</option>
-          <option value="خارجية">جلسة خارجية</option>
+          <option value="Indoor">Indoor Seating</option>
+          <option value="Outdoor">Outdoor Seating</option>
         </select>
       </div>
 
-      <button type="submit" class="w-full bg-blue-500 text-white p-3 rounded hover:bg-blue-600 transition mt-4">احجز الآن</button>
+      <button type="submit" class="w-full bg-blue-500 text-white p-3 rounded hover:bg-blue-600 transition mt-4">Book Now</button>
     </form>
   </div>
+
+  <!-- Image Section -->
+  <div class="w-full md:w-1/2 order-1 md:order-2">
+    <img src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Restaurant Image" class="rounded-lg shadow-lg w-full h-full object-cover">
+  </div>
+
 </div>
 
 <!-- Modal -->
 <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50 p-4">
   <div class="bg-white rounded-lg p-6 sm:p-8 max-w-md w-full text-center">
-    <h2 class="text-xl font-bold mb-4 text-green-600">تم تأكيد الحجز!</h2>
+    <h2 class="text-xl font-bold mb-4 text-green-600">Reservation Confirmed!</h2>
     <div id="modalContent" class="text-gray-700 space-y-2 text-sm sm:text-base"></div>
-    <button onclick="closeModal()" class="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">إغلاق</button>
+    <button onclick="closeModal()" class="mt-6 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Close</button>
   </div>
 </div>
 
@@ -94,12 +95,12 @@ form.addEventListener('submit', function(event) {
   };
 
   modalContent.innerHTML = `
-    <p><strong>الاسم:</strong> ${reservationData.name}</p>
-    <p><strong>البريد الإلكتروني:</strong> ${reservationData.email}</p>
-    <p><strong>التاريخ:</strong> ${reservationData.date}</p>
-    <p><strong>الوقت:</strong> ${reservationData.time}</p>
-    <p><strong>عدد الأشخاص:</strong> ${reservationData.guests}</p>
-    <p><strong>نوع الجلسة:</strong> ${reservationData.session}</p>
+    <p><strong>Name:</strong> ${reservationData.name}</p>
+    <p><strong>Email:</strong> ${reservationData.email}</p>
+    <p><strong>Date:</strong> ${reservationData.date}</p>
+    <p><strong>Time:</strong> ${reservationData.time}</p>
+    <p><strong>Guests:</strong> ${reservationData.guests}</p>
+    <p><strong>Seating:</strong> ${reservationData.session}</p>
   `;
   modal.classList.remove('hidden');
   modal.classList.add('flex');
